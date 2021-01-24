@@ -39,7 +39,8 @@ code {
   border-color: black;
   border: solid;
   justify-content: right;
-  float: right;
+  align-self: center;
+  float: center;
   width: 200px;
   height: 250px;
   background-color: grey;
@@ -48,6 +49,8 @@ code {
 }
 
 .level{
+  justify-content: center;
+  justify-self: center;
   width: 200px;
   height: 250;
 }
