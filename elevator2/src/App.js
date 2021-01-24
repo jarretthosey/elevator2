@@ -1,37 +1,72 @@
 import './App.css';
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 function App() {
-  const [clickedButtons, setClickecButtons] = useState([])
+  const [floorLevel, setFloorLevel] = useState(1);
+  const [clickedButtons, setClickecButtons] = useState([]);
+  const [moving, setMoving] = useState(false);
 
-  const setLevel = (level) => {
-    setTimeout(() => {
-      document.getElementById("elevator").style.gridRow = level;
-      
-    }, 1000)
-    alert(`At floor ${7 - level}`)
+  useEffect(() => {
+    if(clickedButtons.length > 0){
+      setMoving(true)
+      if(clickedButtons.includes(floorLevel)){
+        setTimeout(() => {
+          setMoving(false)
+        }, 0)
+        setClickecButtons(clickedButtons => {
+          return [...clickedButtons].filter((button) => button !== floorLevel)
+        })
+      }
+        else if(clickedButtons[0] > floorLevel){
+        const timer = setTimeout(() => { 
+          setFloorLevel(curFloor => curFloor + 1)}, 1000)
+        return () => clearTimeout(timer)
+      } else if(clickedButtons[0] < floorLevel){
+        const timer = setTimeout(() => {
+          setFloorLevel(curFloor => curFloor - 1)}, 1000)
+        return () => clearTimeout(timer)
+        }
+        setClickecButtons(clickedButtons => {
+          return [...clickedButtons].filter((button) => button !== floorLevel)
+        })
+        setMoving(false)
+      //}
+    }
+  }, [clickedButtons, floorLevel]);
+
+  const buttonClick = (buttonNumber) => {
+    setClickecButtons(i => [...i, buttonNumber])
+    setMoving(true);
   }
 
-  const buttonClick = (level) => {
-    setLevel(level)
-  }
+  const elevator =
+    <div id="elevator">
+            <button onClick={() => buttonClick(6)}>6</button>
+            <button onClick={() => buttonClick(5)}>5</button>
+            <button onClick={() => buttonClick(4)}>4</button>
+            <button onClick={() => buttonClick(3)}>3</button>
+            <button onClick={() => buttonClick(2)}>2</button>
+            <button onClick={() => buttonClick(1)}>1</button>
+          </div>
+
+//giving me problems
+// const elevator =
+// <div id="elevator">
+//   {[...Array(6).keys()].reverse().map((i) => {
+//     let buttonNumber = i + 1
+//     return <button key={buttonNumber} onClick={() => buttonClick({buttonNumber})}>{buttonNumber}</button>
+//   })}
+// </div>
 
   return (
     <div className="App">
       <div className="main">
-          <div id="elevator">
-            <button onClick={() => buttonClick(6)}>1</button>
-            <button onClick={() => buttonClick(5)}>2</button>
-            <button onClick={() => buttonClick(4)}>3</button>
-            <button onClick={() => buttonClick(3)}>4</button>
-            <button onClick={() => buttonClick(2)}>5</button>
-            <button onClick={() => buttonClick(1)}>6</button>
-          </div>
-          <div className="level">floor6</div>
-          <div className="level">floor5</div>
-          <div className="level">floor4</div>
-          <div className="level">floor3</div>
-          <div className="level">floor2</div>
-          <div className="level">floor1</div>
+          <div className="level">{floorLevel === 6 ? elevator : <div />}floor6</div>
+          <div className="level">{floorLevel === 5 ? elevator : <div />}floor5</div>
+          <div className="level">{floorLevel === 4 ? elevator : <div />}floor4</div>
+          <div className="level">{floorLevel === 3 ? elevator : <div />}floor3</div>
+          <div className="level">{floorLevel === 2 ? elevator : <div />}floor2</div>
+          <div className="level">{floorLevel === 1 ? elevator : <div />}floor1</div>
+          <h3>{moving ? "Elevator Moving" : 'You arrived at floor ' + floorLevel }</h3>
       </div>
     </div>
   );
