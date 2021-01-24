@@ -44,7 +44,7 @@ code {
   height: 250px;
   background-color: grey;
   background-image: url('./images/smallelevator.png');
-  background-size: 200px;
+  background-size: 256px;
 }
 
 .level{

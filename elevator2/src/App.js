@@ -5,6 +5,21 @@ function App() {
   const [clickedButtons, setClickecButtons] = useState([]);
   const [moving, setMoving] = useState(false);
 
+  const changeButtonColor = () => {
+    Array.from(document.querySelectorAll('button')).map(function(button) {
+      if(clickedButtons.includes(parseInt(button.id))){
+        button.style.backgroundColor="green";
+      } else {
+        button.style.backgroundColor="white";
+      }
+      return button.id
+    })
+  }
+
+  useEffect(() => {
+    changeButtonColor()
+  }, [clickedButtons, floorLevel])
+
   useEffect(() => {
     if(clickedButtons.length > 0){
       setMoving(true)
@@ -29,23 +44,25 @@ function App() {
           return [...clickedButtons].filter((button) => button !== floorLevel)
         })
         setMoving(false)
-      //}
     }
   }, [clickedButtons, floorLevel]);
 
+  
+
   const buttonClick = (buttonNumber) => {
     setClickecButtons(i => [...i, buttonNumber])
+       
     setMoving(true);
   }
 
   const elevator =
     <div id="elevator">
-            <button onClick={() => buttonClick(6)}>6</button>
-            <button onClick={() => buttonClick(5)}>5</button>
-            <button onClick={() => buttonClick(4)}>4</button>
-            <button onClick={() => buttonClick(3)}>3</button>
-            <button onClick={() => buttonClick(2)}>2</button>
-            <button onClick={() => buttonClick(1)}>1</button>
+            <button id='6' onClick={() => buttonClick(6)}>6</button>
+            <button id='5' onClick={() => buttonClick(5)}>5</button>
+            <button id='4' onClick={() => buttonClick(4)}>4</button>
+            <button id='3' onClick={() => buttonClick(3)}>3</button>
+            <button id='2' onClick={() => buttonClick(2)}>2</button>
+            <button id='1' onClick={() => buttonClick(1)}>1</button>
           </div>
 
 //giving me problems
