@@ -6,11 +6,11 @@ function App() {
   const [moving, setMoving] = useState(false);
 
   const changeButtonColor = () => {
-    Array.from(document.querySelectorAll('button')).map(function(button) {
-      if(clickedButtons.includes(parseInt(button.id))){
-        button.style.backgroundColor="green";
+    Array.from(document.querySelectorAll('button')).map(function (button) {
+      if (clickedButtons.includes(parseInt(button.id))) {
+        button.style.backgroundColor = "green";
       } else {
-        button.style.backgroundColor="white";
+        button.style.backgroundColor = "white";
       }
       return button.id
     })
@@ -21,29 +21,30 @@ function App() {
   }, [clickedButtons, floorLevel])
 
   useEffect(() => {
-    if(clickedButtons.length > 0){
+    if (clickedButtons.length > 0) {
       setMoving(true)
-      if(clickedButtons.includes(floorLevel)){
+      if (clickedButtons.includes(floorLevel)) {
         setTimeout(() => {
           setMoving(false)
         }, 0)
         setClickecButtons(clickedButtons => {
           return [...clickedButtons].filter((button) => button !== floorLevel)
         })
-      }
-        else if(clickedButtons[0] > floorLevel){
-        const timer = setTimeout(() => { 
-          setFloorLevel(curFloor => curFloor + 1)}, 1000)
-        return () => clearTimeout(timer)
-      } else if(clickedButtons[0] < floorLevel){
+      } else if (clickedButtons[0] > floorLevel) {
         const timer = setTimeout(() => {
-          setFloorLevel(curFloor => curFloor - 1)}, 1000)
+          setFloorLevel(curFloor => curFloor + 1)
+        }, 1000)
         return () => clearTimeout(timer)
-        }
-        setClickecButtons(clickedButtons => {
-          return [...clickedButtons].filter((button) => button !== floorLevel)
-        })
-        setMoving(false)
+      } else if (clickedButtons[0] < floorLevel) {
+        const timer = setTimeout(() => {
+          setFloorLevel(curFloor => curFloor - 1)
+        }, 1000)
+        return () => clearTimeout(timer)
+      }
+      setClickecButtons(clickedButtons => {
+        return [...clickedButtons].filter((button) => button !== floorLevel)
+      })
+      setMoving(false)
     }
   }, [clickedButtons, floorLevel]);
 
@@ -51,7 +52,7 @@ function App() {
 
   const buttonClick = (buttonNumber) => {
     setClickecButtons(i => [...i, buttonNumber])
-       
+
     setMoving(true);
   }
 
@@ -77,13 +78,13 @@ function App() {
   return (
     <div className="App">
       <div className="main">
-          <div className="level">{floorLevel === 6 ? elevator : <div />}floor6</div>
-          <div className="level">{floorLevel === 5 ? elevator : <div />}floor5</div>
-          <div className="level">{floorLevel === 4 ? elevator : <div />}floor4</div>
-          <div className="level">{floorLevel === 3 ? elevator : <div />}floor3</div>
-          <div className="level">{floorLevel === 2 ? elevator : <div />}floor2</div>
-          <div className="level">{floorLevel === 1 ? elevator : <div />}floor1</div>
-          <h3>{moving ? "Elevator Moving" : 'You arrived at floor ' + floorLevel }</h3>
+          <div className="level">{floorLevel===6 ? elevator:<div/>}floor6</div>
+          <div className="level">{floorLevel===5 ? elevator:<div/>}floor5</div>
+          <div className="level">{floorLevel===4 ? elevator:<div/>}floor4</div>
+          <div className="level">{floorLevel===3 ? elevator:<div/>}floor3</div>
+          <div className="level">{floorLevel===2 ? elevator:<div/>}floor2</div>
+          <div className="level">{floorLevel===1 ? elevator:<div/>}floor1</div>
+          <h3>{moving ? "Elevator Moving":"You arrived at floor " + floorLevel }</h3>
       </div>
     </div>
   );
