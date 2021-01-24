@@ -24,6 +24,7 @@ function App() {
     if (clickedButtons.length > 0) {
       setMoving(true)
       if (clickedButtons.includes(floorLevel)) {
+        //needs to be put on the callstack after it is clear
         setTimeout(() => {
           setMoving(false)
         }, 0)
